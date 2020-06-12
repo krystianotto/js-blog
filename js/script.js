@@ -32,8 +32,28 @@ const titleClickHandler = function(event){
     tartgetArticle.classList.add('active');
 }
 
-const links = document.querySelectorAll('.titles a');
+
+const articles = document.querySelectorAll('.post');
   
-for(let link of links){
-    link.addEventListener('click', titleClickHandler);
+
+
+function generateTitleLinks(){
+    //Clean siddebar
+    document.querySelector('.titles').innerHTML = '';
+    //get article id and title
+    for(let article of articles){
+        const articleID = article.getAttribute('id');
+        const articleTitle = article.querySelector('h3').innerHTML;
+        
+        document.querySelector('.titles').innerHTML += ("<li><a href='#"+articleID+"'><span>"+articleTitle+"</span></a></li>");
+        console.log(document.querySelector('.titles'))
+    }
+    const links = document.querySelectorAll('.titles a');
+    for(let link of links){
+        link.addEventListener('click', titleClickHandler);
+    }
+    //save id and title to html 
+    //paste id and title into sidebar
 }
+
+generateTitleLinks()
