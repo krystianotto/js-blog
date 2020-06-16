@@ -10,12 +10,14 @@
     "init:gitignore": "curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -o .gitignore",
     "test": "npm-run-all test:*",
     "test:html": "html-validate *.html",
+    "test:js": "eslint js/",
+    "test:scss": "stylelint sass/",
     "build": "npm-run-all build:* && npm run test",
     "build:sass": "node-sass --output-style compact -o css sass",
     "build:autoprefixer": "autoprefixer-cli css/style.css",
     "build-dev": "npm-run-all build-dev:sass build:autoprefixer",
     "build-dev:sass": "node-sass --output-style expanded --source-map true -o css sass",
-    "watch": "npm-run-all build:* && npm-run-all -p watch:*",
+    "watch": "npm-run-all build:* build-dev -p watch:*",
     "watch:browsersync": "browser-sync start --server --files \"css/*.css\" \"*.html\" \"js/*.js\"",
     "watch:sassprefixer": "onchange sass/*.scss -- npm run build-dev"
   },
@@ -25,10 +27,13 @@
   "devDependencies": {
     "autoprefixer-cli": "^1.0.0",
     "browser-sync": "^2.26.7",
+    "eslint": "^7.2.0",
     "html-validate": "^2.23.0",
     "mkdirp": "^1.0.4",
     "node-sass": "^4.14.1",
     "npm-run-all": "^4.1.5",
-    "onchange": "^7.0.2"
+    "onchange": "^7.0.2",
+    "stylelint": "^13.6.0",
+    "stylelint-scss": "^3.17.2"
   }
 }
