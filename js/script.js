@@ -61,3 +61,41 @@ function generateTitleLinks(){
 }
 
 generateTitleLinks();
+
+function generateTags(){
+  /* START LOOP: for every article: */
+  for(let article of articles){
+
+    /* find tags wrapper */
+    const tagList = article.querySelector('.post-tags .list');
+    tagList.innerHTML = '';
+
+    /* make html variable with empty string */
+    let html = '';
+
+    /* get tags from data-tags attribute */
+    const dataTags = article.getAttribute('data-tags');
+
+    /* split tags into array */
+    const tagsArray = dataTags.split(' ');
+
+    /* START LOOP: for each tag */
+    tagsArray.forEach(
+      function (value){
+        /* generate HTML of the link */
+        const htmlLink =`<li><a href='#'>${value} </a></li>`;
+
+        /* add generated code to html variable */
+        html += htmlLink;
+      }
+    );
+    /* END LOOP: for each tag */
+
+    /* insert HTML of all the links into the tags wrapper */
+    tagList.innerHTML += html;
+    console.log(tagList);
+  /* END LOOP: for every article: */
+  }
+}
+
+generateTags();
