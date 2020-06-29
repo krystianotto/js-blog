@@ -150,3 +150,42 @@ function addClickListenersToTags(){
 }
 
 addClickListenersToTags();
+
+function generateAuthor(){
+  //for each article insert an author
+  for(let article of articles){
+    const authorTag = article.getAttribute('author-tags');
+    const authorPost = article.querySelector('.post-author');
+    authorPost.innerHTML = `<a href='#author-${authorTag}'>${authorTag}</a>`;
+  }
+}
+
+generateAuthor();
+
+function authorClickHander(event){
+  event.preventDefault();
+
+  const clickedElement = this;
+
+  const href = clickedElement.getAttribute('href');
+
+  const tag = href.replace('#author-', '');
+
+  generateTitleLinks('[author-tags="'+ tag +'"]');
+
+}
+
+function addClickListenersToAuthors(){
+  /* find all links to tags */
+  const authorLinks = document.querySelectorAll('.post-author a');
+  console.log(authorLinks);
+  /* START LOOP: for each link */
+  for(let link of authorLinks){
+    /* add authorClickHandler as event listener for that link */
+    link.addEventListener('click',authorClickHander);
+  }
+
+  /* END LOOP: for each link */
+}
+
+addClickListenersToAuthors();
