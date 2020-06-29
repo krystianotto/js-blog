@@ -65,7 +65,24 @@ function generateTitleLinks(customSelector= ''){
 
 generateTitleLinks();
 
+function calculateTagsParams(tags){
+  const params = {
+    'max': 0,
+    'min': 9999,
+  };
+
+  for(let tag in tags){
+    params.max = Math.max(tags[tag], params.max);
+    params.min = Math.min(tags[tag], params.min);
+  }
+
+  return params;
+}
+
 function generateTags(){
+  /* [NEW] create a new variable allTags with an empty array */
+  let allTags = {};
+
   /* START LOOP: for every article: */
   for(let article of articles){
 
@@ -89,6 +106,14 @@ function generateTags(){
 
         /* add generated code to html variable */
         html += htmlLink;
+
+        /* [NEW] check if this link is NOT already in allTags */
+        if(!allTags[value]){
+        /* [NEW] add tag to allTags object */
+          allTags[value] = 1;
+        }else {
+          allTags[value]++;
+        }
       }
     );
     /* END LOOP: for each tag */
@@ -97,6 +122,24 @@ function generateTags(){
     tagList.innerHTML += html;
   /* END LOOP: for every article: */
   }
+  /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector('.tags');
+
+  /* [NEW] create variable for all links HTML code */
+  const tagsParams = calculateTagsParams(allTags);
+  console.log('tagsParams:', tagsParams);
+  let allTagsHTML = '';
+
+  /* [NEW] START LOOP: for each tag in allTags: */
+  for(let tag in allTags){
+    const tagLink = `<a href='#'>${tag}</a>`;
+    /* [NEW] generate code of a link and add it to allTagsHTML */
+    allTagsHTML += tagLink + ' (' + allTags[tag] + ') ';
+  }
+  /* [NEW] END LOOP: for each tag in allTags: */
+
+  /*[NEW] add HTML from allTagsHTML to tagList */
+  tagList.innerHTML = allTagsHTML;
 }
 
 generateTags();
@@ -178,7 +221,6 @@ function authorClickHander(event){
 function addClickListenersToAuthors(){
   /* find all links to tags */
   const authorLinks = document.querySelectorAll('.post-author a');
-  console.log(authorLinks);
   /* START LOOP: for each link */
   for(let link of authorLinks){
     /* add authorClickHandler as event listener for that link */
